@@ -19,23 +19,18 @@ var app = {
                 universalLinks.subscribe('adjustDeepLinking', app.didLaunchAppFromLink);
             }
 
-            var baseUrl = "";
-            var gdprUrl = "";
-            var subscriptionUrl = "";
-            var ipAddress = "192.168.86.44";
+            var urlOverwrite = "";
+            var ipAddress = "192.168.86.53";
             if (device.platform === "Android") {
-                baseUrl = "https://" + ipAddress + ":8443";
-                gdprUrl = "https://" + ipAddress + ":8443";
-                subscriptionUrl = "https://" + ipAddress + ":8443";
+                urlOverwrite = "https://" + ipAddress + ":8443";
             } else if (device.platform === "iOS") {
-                baseUrl = "http://" + ipAddress + ":8080";
-                gdprUrl = "http://" + ipAddress + ":8080";
-                subscriptionUrl = "http://" + ipAddress + ":8080";
+                urlOverwrite = "http://" + ipAddress + ":8080";
             }
             var controlUrl = "ws://" + ipAddress + ":1987";
 
-            var commandExecutor = new CommandExecutor(baseUrl, gdprUrl, subscriptionUrl);
-            AdjustTest.startTestSession(baseUrl, controlUrl, sdkVersion, function(json) {
+            var commandExecutor = new CommandExecutor(urlOverwrite);
+            // AdjustTest.addTestDirectory('purchase-verification');
+            AdjustTest.startTestSession(urlOverwrite, controlUrl, sdkVersion, function(json) {
                 var commandDict = JSON.parse(json);
                 var className = commandDict['className'];
                 var functionName = commandDict['functionName'];
